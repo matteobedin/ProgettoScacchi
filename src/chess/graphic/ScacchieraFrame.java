@@ -36,28 +36,29 @@ public class ScacchieraFrame extends JFrame {
 	private Casella[][] caselle = new Casella[8][8];
 	private final JPanel field = new JPanel(new GridLayout(8, 8));
 	private final ImageIcon torreBianca = new ImageIcon(
-			"images/normal/torre_bianca.png");
+			ScacchieraFrame.class.getResource("/images/normal/torre_bianca.png"));
 	private final ImageIcon torreNera = new ImageIcon(
-			"images/normal/torre_nera.png");
+			ScacchieraFrame.class.getResource("/images/normal/torre_nera.png"));
 	private final ImageIcon cavalloBianco = new ImageIcon(
-			"images/normal/cavallo_bianco.png");
+			ScacchieraFrame.class.getResource("/images/normal/cavallo_bianco.png"));
 	private final ImageIcon cavalloNero = new ImageIcon(
-			"images/normal/cavallo_nero.png");
+			ScacchieraFrame.class.getResource("/images/normal/cavallo_nero.png"));
 	private final ImageIcon alfiereBianco = new ImageIcon(
-			"images/normal/alfiere_bianco.png");
+			ScacchieraFrame.class.getResource("/images/normal/alfiere_bianco.png"));
 	private final ImageIcon alfiereNero = new ImageIcon(
-			"images/normal/alfiere_nero.png");
+			ScacchieraFrame.class.getResource("/images/normal/alfiere_nero.png"));
 	private final ImageIcon reginaBianca = new ImageIcon(
-			"images/normal/regina_bianca.png");
+			ScacchieraFrame.class.getResource("/images/normal/regina_bianca.png"));
 	private final ImageIcon reginaNera = new ImageIcon(
-			"images/normal/regina_nera.png");
+			ScacchieraFrame.class.getResource("/images/normal/regina_nera.png"));
 	private final ImageIcon reBianco = new ImageIcon(
-			"images/normal/re_bianco.png");
-	private final ImageIcon reNero = new ImageIcon("images/normal/re_nero.png");
+			ScacchieraFrame.class.getResource("/images/normal/re_bianco.png"));
+	private final ImageIcon reNero = new ImageIcon(
+			ScacchieraFrame.class.getResource("/images/normal/re_nero.png"));
 	private final ImageIcon pedoneBianco = new ImageIcon(
-			"images/normal/pedone_bianco.png");
+			ScacchieraFrame.class.getResource("/images/normal/pedone_bianco.png"));
 	private final ImageIcon pedoneNero = new ImageIcon(
-			"images/normal/pedone_nero.png");
+			ScacchieraFrame.class.getResource("/images/normal/pedone_nero.png"));
 
 	private JMenuBar jmb = new JMenuBar();
 	private JMenu file = new JMenu("File");
@@ -79,13 +80,14 @@ public class ScacchieraFrame extends JFrame {
 				caselle[i][j] = new Casella(i, j, (i + j) % 2 == 0 ? 0 : 1);
 				// Imposta il colore di sfondo
 				caselle[i][j]
-						.setBackground(caselle[i][j].getColor() == 0 ? Color.WHITE
-								: Color.LIGHT_GRAY);
+						.setBackground(caselle[i][j].getColor() == 0 ? new Color(205, 133, 63)
+								: new Color(139, 69, 19));
 				field.add(caselle[i][j]); // Aggiunge la casella alla
 											// GridView campoDaGioco
 			}
 		}
 
+		inizializza();
 		gui.setBorder(new EmptyBorder(10, 10, 10, 10));
 		scacchiera.add(field, BorderLayout.CENTER);
 		gui.add(scacchiera, BorderLayout.CENTER);
@@ -107,6 +109,8 @@ public class ScacchieraFrame extends JFrame {
 		ricomincia.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				new ScacchieraFrame();
+				ScacchieraFrame.this.dispose();
 
 			}
 		});

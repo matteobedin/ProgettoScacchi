@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 public class WindowStart extends JFrame {
 
 	public WindowStart() {
-		super("SCACCHI");
+		super("GIOCO DEGLI SCACCHI");
 		setVisible(true);
 
 		JPanel main_panel = new JPanel();
@@ -65,7 +65,8 @@ public class WindowStart extends JFrame {
 		normal.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ScacchieraFrame frame = new ScacchieraFrame();
+				new ScacchieraFrame();
+				WindowStart.this.dispose();
 			}
 		});
 
