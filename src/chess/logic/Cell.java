@@ -1,4 +1,4 @@
-package logic;
+package chess.logic;
 
 import java.awt.Color;
 import javax.swing.ImageIcon;
@@ -9,76 +9,88 @@ import javax.swing.JButton;
  * della scacchiera. E' dotata di un colore, un'eventuale pedina
  * corredata da immagine, e puo' essere selezionata al clic
  * del mouse. Ogni casella, come prevede il gioco degli scacchi,
- * pu� essere minacciata dalle pedine dei giocatori.
+ * può essere minacciata dalle pedine dei giocatori.
  */
 
-public class Casella extends JButton {
+public class Cell extends JButton {
+	private static final long serialVersionUID = -4925019709314475589L;
+
 	private int row; // riga
 	private int column; // colonna
-	private int color; // colore della casella
+
+	private int whiteAlert; // 0 se la casella non e' minacciata, 1 in caso
+							// contrario
+	private int blackAlert; // 0 se la casella non e' minacciata, 1 in caso
+							// contrario
+
+	
+
+	private String pedina; // nome della pedina
+	private int colorP; // colore della pedina
+
+	private int isSelected = 0; // 0 se questa casella non è selezionata, 1 se
+								// e' selezionata
+	private static int selected = 0; // 0 se non c'e' alcuna casella selezionata
+										// nella scacchiera, 1 in caso contrario
+
 	private ImageIcon image; // immagine della pedina
-	private String namep; // nome della pedina
-	private int colorp; // colore della pedina
-	private boolean isSelected = false; // false se questa casella non �
-										// selezionata, true se e' selezionata
-	private static boolean selection = false; // false se non c'e' alcuna
-												// casella selezionata nella
-												// scacchiera, true in caso
-												// contrario
+	private int color; // colore della casella
 
-	private boolean whiteAlert; // false se la casella non e' minacciata, true
-								// in caso contrario
-	private boolean blackAlert; // false se la casella non e' minacciata, true
-								// in caso contrario
-
-	public Casella(int r, int c, int color) {
-		this.row = r;
-		this.column = c;
+	public Cell(int x, int y, int color) {
+		this.row = x;
+		this.column = y;
 		this.color = color;
 	}
 
-	public void setWhiteAlert(boolean alert) {
-		whiteAlert = alert;
-	}
-
-	public void setBlackAlert(boolean alert) {
-		blackAlert = alert;
-	}
-
-	public boolean isWhiteAlert() {
+	public int getWhiteAlert() {
 		return whiteAlert;
 	}
 
-	public boolean isBlackAlert() {
+
+	public void setWhiteAlert(int whiteAlert) {
+		this.whiteAlert = whiteAlert;
+	}
+
+
+	public int getBlackAlert() {
 		return blackAlert;
 	}
 
-	public int getColorP() {
-		return colorp;
+
+	public void setBlackAlert(int blackAlert) {
+		this.blackAlert = blackAlert;
 	}
+
 
 	public int getRow() {
 		return row;
 	}
 
+
 	public int getColumn() {
 		return column;
 	}
 
+
+	public ImageIcon getImage() {
+		return image;
+	}
+	
 	public boolean selected() {
-		if (selection)
-			return true;
-		return false;
+		return selected == 1;
 	}
 
-	public ImageIcon getImagePedina() {
+	public ImageIcon getImageP() {
 		return image;
 	}
 
 	public boolean thisSelected() {
-		if (isSelected)
-			return true;
-		return false;
+		
+		return isSelected == 1;
+	}
+
+	public int getColorP() {
+		return colorP;
 	}
 
 	/*
@@ -87,10 +99,10 @@ public class Casella extends JButton {
 	 * ritorna falso
 	 */
 	public boolean scaccoBianchi() {
-		if ((namep.equals("Re") && colorp == 0 && blackAlert)) {
+		if ((pedina.equals("Re") && colorP == 0 && blackAlert == 1)) {
 			this.setBackground(Color.RED);
 			return true;
-		} else if (isSelected)
+		} else if (isSelected == 1)
 			this.setBackground(Color.GREEN);
 		else
 			this.setBackground(color == 0 ? Color.WHITE : Color.LIGHT_GRAY);
@@ -103,10 +115,10 @@ public class Casella extends JButton {
 	 * ritorna falso
 	 */
 	public boolean scaccoNeri() {
-		if ((namep.equals("Re") && colorp == 1 && whiteAlert)) {
+		if ((pedina.equals("Re") && colorP == 1 && whiteAlert == 1)) {
 			this.setBackground(Color.RED);
 			return true;
-		} else if (isSelected)
+		} else if (isSelected == 1)
 			this.setBackground(Color.GREEN);
 		else
 			this.setBackground(color == 0 ? Color.WHITE : Color.LIGHT_GRAY);
@@ -114,7 +126,7 @@ public class Casella extends JButton {
 	}
 
 	public boolean isEmpty() {
-		if (namep.equals(""))
+		if (pedina.equals(""))
 			return true;
 		else
 			return false;
@@ -122,21 +134,21 @@ public class Casella extends JButton {
 
 	// Ripristina i colori di sfondo una volta deselezionata la casella
 	public void thisDeSelect() {
-		isSelected = false;
+		isSelected = 0;
 		this.setBackground(color == 0 ? Color.WHITE : Color.LIGHT_GRAY);
 	}
 
 	// Imposta lo sfondo di colore verde per le caselle di destinazione legali
 	public void select() {
-		selection = true;
-		isSelected = true;
+		selected = 1;
+		isSelected = 1;
 		this.setBackground(Color.GREEN);
 	}
 
 	// Deseleziona la casella e azzera selected
 	public void deSelect() {
-		selection = false;
-		isSelected = false;
+		selected = 0;
+		isSelected = 0;
 		this.setBackground(color == 0 ? Color.WHITE : Color.LIGHT_GRAY);
 	}
 
@@ -144,17 +156,17 @@ public class Casella extends JButton {
 		return color;
 	}
 
-	public boolean isSelected() {
-		return selection;
+	public int getSelected() {
+		return selected;
 	}
 
 	public String getPedina() {
-		return namep;
+		return pedina;
 	}
 
 	public void setPedina(String pedina, int colorePedina, ImageIcon image) {
-		this.namep = pedina;
-		this.colorp = colorePedina;
+		this.pedina = pedina;
+		this.colorP = colorePedina;
 		this.image = image;
 		setIcon(image);
 	}

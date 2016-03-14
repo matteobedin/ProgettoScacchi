@@ -48,8 +48,6 @@ public class WindowStart extends JFrame {
 		setContentPane(main_panel);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setResizable(false);
-		// pack() per impacchettare la finestra in base alla dimensione dei
-		// componenti
 		pack();
 
 		// finestra al centro dello schermo
@@ -65,7 +63,7 @@ public class WindowStart extends JFrame {
 		normal.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new ScacchieraFrame();
+				new ChessboardFrame();
 				WindowStart.this.dispose();
 			}
 		});
@@ -80,7 +78,6 @@ public class WindowStart extends JFrame {
 		laws.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// new LawsWindow();
 			}
 		});
 

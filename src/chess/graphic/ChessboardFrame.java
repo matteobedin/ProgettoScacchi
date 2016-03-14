@@ -2,7 +2,6 @@ package chess.graphic;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
@@ -17,9 +16,11 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import logic.Casella;
+import chess.logic.Cell;
+import chess.logic.Controller;
 
-public class ScacchieraFrame extends JFrame {
+@SuppressWarnings("serial")
+public class ChessboardFrame extends JFrame {
 	private final int SCREENW = (int) Toolkit.getDefaultToolkit()
 			.getScreenSize().getWidth();
 	private final int SCREENH = (int) Toolkit.getDefaultToolkit()
@@ -33,32 +34,36 @@ public class ScacchieraFrame extends JFrame {
 
 	private final JPanel gui = new JPanel(new BorderLayout(2, 1));
 	private final JPanel scacchiera = new JPanel(new BorderLayout());
-	private Casella[][] caselle = new Casella[8][8];
+	private Cell[][] caselle = new Cell[8][8];
 	private final JPanel field = new JPanel(new GridLayout(8, 8));
 	private final ImageIcon torreBianca = new ImageIcon(
-			ScacchieraFrame.class.getResource("/images/normal/torre_bianca.png"));
+			ChessboardFrame.class.getResource("/images/other/torre_bianca.png"));
 	private final ImageIcon torreNera = new ImageIcon(
-			ScacchieraFrame.class.getResource("/images/normal/torre_nera.png"));
+			ChessboardFrame.class.getResource("/images/other/torre_nera.png"));
 	private final ImageIcon cavalloBianco = new ImageIcon(
-			ScacchieraFrame.class.getResource("/images/normal/cavallo_bianco.png"));
+			ChessboardFrame.class
+					.getResource("/images/other/cavallo_bianco.png"));
 	private final ImageIcon cavalloNero = new ImageIcon(
-			ScacchieraFrame.class.getResource("/images/normal/cavallo_nero.png"));
+			ChessboardFrame.class.getResource("/images/other/cavallo_nero.png"));
 	private final ImageIcon alfiereBianco = new ImageIcon(
-			ScacchieraFrame.class.getResource("/images/normal/alfiere_bianco.png"));
+			ChessboardFrame.class
+					.getResource("/images/other/alfiere_bianco.png"));
 	private final ImageIcon alfiereNero = new ImageIcon(
-			ScacchieraFrame.class.getResource("/images/normal/alfiere_nero.png"));
+			ChessboardFrame.class.getResource("/images/other/alfiere_nero.png"));
 	private final ImageIcon reginaBianca = new ImageIcon(
-			ScacchieraFrame.class.getResource("/images/normal/regina_bianca.png"));
+			ChessboardFrame.class
+					.getResource("/images/other/regina_bianca.png"));
 	private final ImageIcon reginaNera = new ImageIcon(
-			ScacchieraFrame.class.getResource("/images/normal/regina_nera.png"));
+			ChessboardFrame.class.getResource("/images/other/regina_nera.png"));
 	private final ImageIcon reBianco = new ImageIcon(
-			ScacchieraFrame.class.getResource("/images/normal/re_bianco.png"));
+			ChessboardFrame.class.getResource("/images/other/re_bianco.png"));
 	private final ImageIcon reNero = new ImageIcon(
-			ScacchieraFrame.class.getResource("/images/normal/re_nero.png"));
+			ChessboardFrame.class.getResource("/images/other/re_nero.png"));
 	private final ImageIcon pedoneBianco = new ImageIcon(
-			ScacchieraFrame.class.getResource("/images/normal/pedone_bianco.png"));
+			ChessboardFrame.class
+					.getResource("/images/other/pedone_bianco.png"));
 	private final ImageIcon pedoneNero = new ImageIcon(
-			ScacchieraFrame.class.getResource("/images/normal/pedone_nero.png"));
+			ChessboardFrame.class.getResource("/images/other/pedone_nero.png"));
 
 	private JMenuBar jmb = new JMenuBar();
 	private JMenu file = new JMenu("File");
@@ -67,7 +72,9 @@ public class ScacchieraFrame extends JFrame {
 	private JMenuItem regole = new JMenuItem("Regole");
 	private JMenuItem esci = new JMenuItem("Esci");
 
-	public ScacchieraFrame() {
+	private Controller controller = new Controller(caselle, this);
+
+	public ChessboardFrame() {
 		setBounds(rect);
 		setResizable(false);
 		setTitle("SCACCHI");
@@ -77,17 +84,17 @@ public class ScacchieraFrame extends JFrame {
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
 				// Crea la matrice di caselle
-				caselle[i][j] = new Casella(i, j, (i + j) % 2 == 0 ? 0 : 1);
+				caselle[i][j] = new Cell(i, j, (i + j) % 2 == 0 ? 0 : 1);
 				// Imposta il colore di sfondo
 				caselle[i][j]
-						.setBackground(caselle[i][j].getColor() == 0 ? new Color(205, 133, 63)
-								: new Color(139, 69, 19));
-				field.add(caselle[i][j]); // Aggiunge la casella alla
-											// GridView campoDaGioco
+						.setBackground(caselle[i][j].getColor() == 0 ? new Color(
+								205, 133, 63) : new Color(139, 69, 19));
+				setActionListener(i, j);
+				field.add(caselle[i][j]);
 			}
 		}
 
-		inizializza();
+		cleanGame();
 		gui.setBorder(new EmptyBorder(10, 10, 10, 10));
 		scacchiera.add(field, BorderLayout.CENTER);
 		gui.add(scacchiera, BorderLayout.CENTER);
@@ -97,20 +104,26 @@ public class ScacchieraFrame extends JFrame {
 
 	}
 
+	public void setActionListener(int i, int j) {
+		caselle[i][j].addActionListener(event -> {
+			controller.onClick(caselle[i][j]);
+		});
+	}
+
 	private void addActionListeners() {
 		nuovogioco.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				new WindowStart();
-				ScacchieraFrame.this.dispose();
+				ChessboardFrame.this.dispose();
 			}
 		});
 
 		ricomincia.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new ScacchieraFrame();
-				ScacchieraFrame.this.dispose();
+				new ChessboardFrame();
+				ChessboardFrame.this.dispose();
 
 			}
 		});
@@ -141,38 +154,46 @@ public class ScacchieraFrame extends JFrame {
 		return jmb;
 	}
 
-	public void inizializza() {
+	public void cleanGame() {
 		for (int i = 0; i < 8; i++)
-			for (int j = 0; j < 8; j++) {
 
-				if (i == 0 && (j == 0 || j == 7))
-					caselle[i][j].setPedina("Torre", 1, torreNera);
-				if (i == 0 && (j == 1 || j == 6))
-					caselle[i][j].setPedina("Cavallo", 1, cavalloNero);
-				if (i == 0 && (j == 2 || j == 5))
-					caselle[i][j].setPedina("Alfiere", 1, alfiereNero);
-				if (i == 0 && j == 3)
-					caselle[i][j].setPedina("Regina", 1, reginaNera);
-				if (i == 0 && j == 4)
-					caselle[i][j].setPedina("Re", 1, reNero);
-				if (i == 1)
+			switch (i) {
+
+			case 0:
+				caselle[i][0].setPedina("Torre", 1, torreNera);
+				caselle[i][1].setPedina("Cavallo", 1, cavalloNero);
+				caselle[i][2].setPedina("Alfiere", 1, alfiereNero);
+				caselle[i][3].setPedina("Regina", 1, reginaNera);
+				caselle[i][4].setPedina("Re", 1, reNero);
+				caselle[i][5].setPedina("Alfiere", 1, alfiereNero);
+				caselle[i][6].setPedina("Cavallo", 1, cavalloNero);
+				caselle[i][7].setPedina("Torre", 1, torreNera);
+				break;
+			case 1:
+				for (int j = 0; j < 8; j++)
 					caselle[i][j].setPedina("Pedone", 1, pedoneNero);
-				if (i == 7 && (j == 0 || j == 7))
-					caselle[i][j].setPedina("Torre", 0, torreBianca);
-				if (i == 7 && (j == 1 || j == 6))
-					caselle[i][j].setPedina("Cavallo", 0, cavalloBianco);
-				if (i == 7 && (j == 2 || j == 5))
-					caselle[i][j].setPedina("Alfiere", 0, alfiereBianco);
-				if (i == 7 && j == 3)
-					caselle[i][j].setPedina("Regina", 0, reginaBianca);
-				if (i == 7 && j == 4)
-					caselle[i][j].setPedina("Re", 0, reBianco);
-				if (i == 6)
+				break;
+			
+			case 6:
+				for (int j = 0; j < 8; j++)
 					caselle[i][j].setPedina("Pedone", 0, pedoneBianco);
-				if (i > 1 && i < 6)
-					// Imposta le caselle vuote senza pedine
+				break;
+			case 7:
+				caselle[i][0].setPedina("Torre", 0, torreBianca);
+				caselle[i][1].setPedina("Cavallo", 0, cavalloBianco);
+				caselle[i][2].setPedina("Alfiere", 0, alfiereBianco);
+				caselle[i][3].setPedina("Regina", 0, reginaBianca);
+				caselle[i][4].setPedina("Re", 0, reBianco);
+				caselle[i][5].setPedina("Alfiere", 0, alfiereBianco);
+				caselle[i][6].setPedina("Cavallo", 0, cavalloBianco);
+				caselle[i][7].setPedina("Torre", 0, torreBianca);
+				break;
+				
+			default:
+				for (int j = 0; j < 8; j++)
 					caselle[i][j].setPedina("", -1, null);
 			}
+
 	}
 
 }
