@@ -1,6 +1,7 @@
 package chess.logic;
 
 import chess.graphic.ChessboardFrame;
+import chess.graphic.EndMessage;
 
 public class Controller {
 	ChessboardFrame frame;
@@ -680,6 +681,8 @@ public class Controller {
 										// posso muovere la pedina, quindi
 										// deseleziono
 					deSelectAll();
+					if(start.getPedina().equals("Re"))
+						new EndMessage(start.getColorP(), frame);
 			}
 		} else if (caselle.thisSelected() && start != caselle) {// se e' il
 																// secondo click
@@ -1097,6 +1100,12 @@ public class Controller {
 
 	}
 
+	private void pUpgrade(Cell casellaPromossa){
+		deSelectAll();
+		casellaPromossa.select();
+		//TODO DA AGGIUNGERE FINESTRA SCELTA PEDINA
+	}
+
 
 	private void move(Cell destination) {
 		Cell temp = new Cell(destination.getRow(), destination.getColumn(),
@@ -1108,18 +1117,24 @@ public class Controller {
 				start.getImageP());
 		start.setPedina("", -1, null);
 
-
+		for(int j = 0; j < 8; j++){
+			if(caselle[0][j].getPedina().equals("Pedone"))
+				pUpgrade(caselle[0][j]);
+			if(caselle[7][j].getPedina().equals("Pedone"))
+				pUpgrade(caselle[7][j]);
+		}
+		
 		unSetMinacce();
 		setAlerts();
 		cambiaTurno();
 		if (checkScaccoMattoBianchi()) {
 			checkScaccoBianchi();
-			// new EndMessage(0, frame);
+			 new EndMessage(0, frame);
 
 		}
 		if (checkScaccoMattoNeri()) {
 			checkScaccoNeri();
-			// new EndMessage(1, frame);
+			 new EndMessage(1, frame);
 
 		}
 	}

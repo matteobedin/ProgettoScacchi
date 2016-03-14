@@ -78,6 +78,7 @@ public class WindowStart extends JFrame {
 		laws.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				new LawsWindow();
 			}
 		});
 
