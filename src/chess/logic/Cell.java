@@ -15,6 +15,10 @@ import javax.swing.JButton;
 public class Cell extends JButton {
 	private static final long serialVersionUID = -4925019709314475589L;
 
+	public static final Color LIGHT = new Color(205, 133, 63);
+
+	public static final Color DARK = new Color(139, 69, 19);
+
 	private int row; // riga
 	private int column; // colonna
 
@@ -105,7 +109,7 @@ public class Cell extends JButton {
 		} else if (isSelected == 1)
 			this.setBackground(Color.GREEN);
 		else
-			this.setBackground(color == 0 ? Color.WHITE : Color.LIGHT_GRAY);
+			this.setBackground(color == 0 ? LIGHT : DARK);
 		return false;
 	}
 
@@ -121,7 +125,7 @@ public class Cell extends JButton {
 		} else if (isSelected == 1)
 			this.setBackground(Color.GREEN);
 		else
-			this.setBackground(color == 0 ? Color.WHITE : Color.LIGHT_GRAY);
+			this.setBackground(color == 0 ? LIGHT : DARK);
 		return false;
 	}
 
@@ -135,7 +139,7 @@ public class Cell extends JButton {
 	// Ripristina i colori di sfondo una volta deselezionata la casella
 	public void thisDeSelect() {
 		isSelected = 0;
-		this.setBackground(color == 0 ? Color.WHITE : Color.LIGHT_GRAY);
+		this.setBackground(color == 0 ? LIGHT : DARK);
 	}
 
 	// Imposta lo sfondo di colore verde per le caselle di destinazione legali
@@ -149,7 +153,7 @@ public class Cell extends JButton {
 	public void deSelect() {
 		selected = 0;
 		isSelected = 0;
-		this.setBackground(color == 0 ? Color.WHITE : Color.LIGHT_GRAY);
+		this.setBackground(color == 0 ? LIGHT : DARK);
 	}
 
 	public int getColor() {

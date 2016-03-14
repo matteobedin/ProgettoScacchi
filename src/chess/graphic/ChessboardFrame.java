@@ -87,8 +87,7 @@ public class ChessboardFrame extends JFrame {
 				caselle[i][j] = new Cell(i, j, (i + j) % 2 == 0 ? 0 : 1);
 				// Imposta il colore di sfondo
 				caselle[i][j]
-						.setBackground(caselle[i][j].getColor() == 0 ? new Color(
-								205, 133, 63) : new Color(139, 69, 19));
+						.setBackground(caselle[i][j].getColor() == 0 ? Cell.LIGHT : Cell.DARK);
 				setActionListener(i, j);
 				field.add(caselle[i][j]);
 			}
