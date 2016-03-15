@@ -113,24 +113,22 @@ public class ChessboardFrame extends JFrame {
 		nuovogioco.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new WindowStart();
-				ChessboardFrame.this.dispose();
+					new WindowStart();
+					ChessboardFrame.this.dispose();
 			}
 		});
 
 		ricomincia.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new ChessboardFrame();
-				ChessboardFrame.this.dispose();
-
+				cleanGame();
 			}
 		});
 
 		regole.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
+					new LawsWindow();
 			}
 		});
 
@@ -154,8 +152,10 @@ public class ChessboardFrame extends JFrame {
 	}
 
 	public void cleanGame() {
+		azzeraStatoController();
+		pulisciCaselle();
 		for (int i = 0; i < 8; i++)
-
+			
 			switch (i) {
 
 			case 0:
@@ -193,6 +193,30 @@ public class ChessboardFrame extends JFrame {
 					caselle[i][j].setPedina("", -1, null);
 			}
 
+	}
+
+	private void azzeraStatoController() {
+		controller.azzeraTurn();
+		controller.azzeraStart();
+		controller.setCaselle(caselle);
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void pulisciCaselle() {
+		for(int i = 0; i < 8; i++)
+			for( int j = 0; j < 8; j++)
+				azzeraStatoCasella(caselle[i][j]);
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void azzeraStatoCasella(Cell cell) {
+		cell.setWhiteAlert(0);
+		cell.setBlackAlert(0);
+		cell.deSelect();
+		// TODO Auto-generated method stub
+		
 	}
 
 }
