@@ -1104,7 +1104,7 @@ public class Controller {
 	private void pUpgrade(Cell casellaPromossa){
 		deSelectAll();
 		casellaPromossa.select();
-		new UpgradePFrame(casellaPromossa);
+		new UpgradePFrame(frame, casellaPromossa);
 	}
 
 
@@ -1145,5 +1145,10 @@ public class Controller {
 			for (int j = 0; j < 8; j++)
 				caselle[i][j].deSelect();
 
+	}
+
+	public int getTurn() {
+		// TODO Auto-generated method stub
+		return turn;
 	}
 }

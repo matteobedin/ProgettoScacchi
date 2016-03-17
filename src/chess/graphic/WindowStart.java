@@ -34,12 +34,16 @@ public class WindowStart extends JFrame {
 
 		// pannello centrale bottoni gioco
 		JPanel upper_panel = new JPanel();
-		upper_panel.setLayout(new GridLayout(1, 1));
+		upper_panel.setLayout(new GridLayout(1, 2));
 		JButton normal = new JButton();
+		JButton kids = new JButton("KIDS");
 		normal.setIcon(new ImageIcon(WindowStart.class
-				.getResource("/images/normal/sfondo_iniziale.jpg")));
+				.getResource("/images/other/sfondo_iniziale.jpg")));
+		kids.setIcon(new ImageIcon(WindowStart.class
+				.getResource("/images/kids/kids_sfondo.jpg")));
 		upper_panel.add(normal);
-		addActionListeners(normal, exit, laws);
+		upper_panel.add(kids);
+		addActionListeners(normal, kids, exit, laws);
 
 		main_panel.add(upper_panel, BorderLayout.NORTH);
 		main_panel.add(buttons_panel, BorderLayout.SOUTH);
@@ -58,14 +62,19 @@ public class WindowStart extends JFrame {
 
 	}
 
-	private void addActionListeners(JButton normal, JButton exit, JButton laws) {
+	private void addActionListeners(JButton normal, JButton kids, JButton exit, JButton laws) {
 
 		normal.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new ChessboardFrame();
+				new ChessboardFrame(0);
 				WindowStart.this.dispose();
 			}
+		});
+		
+		kids.addActionListener(event -> {
+			new ChessboardFrame(1);
+			WindowStart.this.dispose();
 		});
 
 		exit.addActionListener(new ActionListener() {

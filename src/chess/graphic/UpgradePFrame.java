@@ -8,7 +8,7 @@ import javax.swing.border.EmptyBorder;
 import chess.logic.Cell;
 
 /*
- *  UpgradePFrame: finestra di dialogo che appare alla promozione di un pedone.
+ *  PromotionFrame: finestra di dialogo che appare alla promozione di un pedone.
  *  Visualizza 4 pulsanti contenenti la pedina da scegliere in sostituzione
  */
 public class UpgradePFrame extends JDialog {
@@ -41,16 +41,36 @@ public class UpgradePFrame extends JDialog {
 					.getResource("/images/other/regina_bianca.png"));
 	private final ImageIcon reginaNera = new ImageIcon(
 			ChessboardFrame.class.getResource("/images/other/regina_nera.png"));
+	
+	private final ImageIcon torreBiancakids = new ImageIcon(
+			ChessboardFrame.class.getResource("/images/kids/torre_bianca.png"));
+	private final ImageIcon torreNerakids = new ImageIcon(
+			ChessboardFrame.class.getResource("/images/kids/torre_nera.png"));
+	private final ImageIcon cavalloBiancokids = new ImageIcon(
+			ChessboardFrame.class
+					.getResource("/images/kids/cavallo_bianco.png"));
+	private final ImageIcon cavalloNerokids = new ImageIcon(
+			ChessboardFrame.class.getResource("/images/kids/cavallo_nero.png"));
+	private final ImageIcon alfiereBiancokids = new ImageIcon(
+			ChessboardFrame.class
+					.getResource("/images/kids/alfiere_bianco.png"));
+	private final ImageIcon alfiereNerokids = new ImageIcon(
+			ChessboardFrame.class.getResource("/images/kids/alfiere_nero.png"));
+	private final ImageIcon reginaBiancakids = new ImageIcon(
+			ChessboardFrame.class
+					.getResource("/images/kids/regina_bianca.png"));
+	private final ImageIcon reginaNerakids = new ImageIcon(
+			ChessboardFrame.class.getResource("/images/kids/regina_nera.png"));
 
-	private final static int HEIGHT = 350;
-	private final static int WIDTH = 180;
+	private final static int HEIGHT = 280;
+	private final static int WIDTH = 150;
 	private final static Dimension dim = Toolkit.getDefaultToolkit()
 			.getScreenSize();
 
-	public UpgradePFrame(Cell casella) {
+	public UpgradePFrame(ChessboardFrame frame, Cell casella) {
 		setSize(HEIGHT, WIDTH);
-		setModal(true); 
-		setResizable(false); 
+		setModal(true); // Resta in primo piano
+		setResizable(false); // Dimensione fissa
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setLocation((dim.width - HEIGHT) / 2, (dim.height - WIDTH) / 2);
 
@@ -62,55 +82,120 @@ public class UpgradePFrame extends JDialog {
 		// Sostituisce il pedone con il pezzo selezionato (colore bianco o nero)
 		// e chiude la finestra di dialogo
 		if (casella.getColorP() == 0) { // Colore bianco
-			Torre.setIcon(torreBianca);
-			Torre.setBackground(Cell.DARK);
-			Alfiere.setIcon(alfiereBianco);
-			Alfiere.setBackground(Cell.DARK);
-			Cavallo.setIcon(cavalloBianco);
-			Cavallo.setBackground(Cell.DARK);
-			Regina.setIcon(reginaBianca);
-			Regina.setBackground(Cell.DARK);
-			Torre.addActionListener(event -> {
-				casella.setPedina("Torre", casella.getColorP(), torreBianca);
-				dispose();
-			});
-			Alfiere.addActionListener(event -> {
-				casella.setPedina("Alfiere", casella.getColorP(), alfiereBianco);
-				dispose();
-			});
-			Cavallo.addActionListener(event -> {
-				casella.setPedina("Cavallo", casella.getColorP(), cavalloBianco);
-				dispose();
-			});
-			Regina.addActionListener(event -> {
-				casella.setPedina("Regina", casella.getColorP(), reginaBianca);
-				dispose();
-			});
+			if (frame.getGame() == 0) {
+				Torre.setBackground(Cell.DARK);
+				Torre.setIcon(torreBianca);
+				Alfiere.setBackground(Cell.DARK);
+				Alfiere.setIcon(alfiereBianco);
+				Cavallo.setBackground(Cell.DARK);
+				Cavallo.setIcon(cavalloBianco);
+				Regina.setBackground(Cell.DARK);
+				Regina.setIcon(reginaBianca);
+				Torre.addActionListener(event -> {
+					casella.setPedina("Torre", casella.getColorP(), torreBianca);
+					dispose();
+				});
+				Alfiere.addActionListener(event -> {
+					casella.setPedina("Alfiere", casella.getColorP(),
+							alfiereBianco);
+					dispose();
+				});
+				Cavallo.addActionListener(event -> {
+					casella.setPedina("Cavallo", casella.getColorP(),
+							cavalloBianco);
+					dispose();
+				});
+				Regina.addActionListener(event -> {
+					casella.setPedina("Regina", casella.getColorP(),
+							reginaBianca);
+					dispose();
+				});
+			} else {
+				Torre.setBackground(Cell.DARK);
+				Torre.setIcon(torreBiancakids);
+				Alfiere.setBackground(Cell.DARK);
+				Alfiere.setIcon(alfiereBiancokids);
+				Cavallo.setBackground(Cell.DARK);
+				Cavallo.setIcon(cavalloBiancokids);
+				Regina.setBackground(Cell.DARK);
+				Regina.setIcon(reginaBiancakids);
+				Torre.addActionListener(event -> {
+					casella.setPedina("Torre", casella.getColorP(),
+							torreBiancakids);
+					dispose();
+				});
+				Alfiere.addActionListener(event -> {
+					casella.setPedina("Alfiere", casella.getColorP(),
+							alfiereBiancokids);
+					dispose();
+				});
+				Cavallo.addActionListener(event -> {
+					casella.setPedina("Cavallo", casella.getColorP(),
+							cavalloBiancokids);
+					dispose();
+				});
+				Regina.addActionListener(event -> {
+					casella.setPedina("Regina", casella.getColorP(),
+							reginaBiancakids);
+					dispose();
+				});
+			}
 		} else { // Colore nero
-			Torre.setIcon(torreNera);
-			Torre.setBackground(Cell.LIGHT);
-			Alfiere.setIcon(alfiereNero);
-			Alfiere.setBackground(Cell.LIGHT);
-			Cavallo.setIcon(cavalloNero);
-			Cavallo.setBackground(Cell.LIGHT);
-			Regina.setIcon(reginaNera);
-			Regina.setBackground(Cell.LIGHT);
-			Torre.addActionListener(event -> {
-				casella.setPedina("Torre", casella.getColorP(), torreNera);
-				dispose();
-			});
-			Alfiere.addActionListener(event -> {
-				casella.setPedina("Alfiere", casella.getColorP(), alfiereNero);
-				dispose();
-			});
-			Cavallo.addActionListener(event -> {
-				casella.setPedina("Cavallo", casella.getColorP(), cavalloNero);
-				dispose();
-			});
-			Regina.addActionListener(event -> {
-				casella.setPedina("Regina", casella.getColorP(), reginaNera);
-				dispose();
-			});
+			if (frame.getGame() == 0) {
+				Torre.setBackground(Cell.LIGHT);
+				Torre.setIcon(torreNera);
+				Alfiere.setBackground(Cell.LIGHT);
+				Alfiere.setIcon(alfiereNero);
+				Cavallo.setBackground(Cell.LIGHT);
+				Cavallo.setIcon(cavalloNero);
+				Regina.setBackground(Cell.LIGHT);
+				Regina.setIcon(reginaNera);
+				Torre.addActionListener(event -> {
+					casella.setPedina("Torre", casella.getColorP(), torreNera);
+					dispose();
+				});
+				Alfiere.addActionListener(event -> {
+					casella.setPedina("Alfiere", casella.getColorP(),
+							alfiereNero);
+					dispose();
+				});
+				Cavallo.addActionListener(event -> {
+					casella.setPedina("Cavallo", casella.getColorP(),
+							cavalloNero);
+					dispose();
+				});
+				Regina.addActionListener(event -> {
+					casella.setPedina("Regina", casella.getColorP(), reginaNera);
+					dispose();
+				});
+			} else {
+				Torre.setBackground(Cell.LIGHT);
+				Torre.setIcon(torreNerakids);
+				Alfiere.setBackground(Cell.LIGHT);
+				Alfiere.setIcon(alfiereNerokids);
+				Cavallo.setBackground(Cell.LIGHT);
+				Cavallo.setIcon(cavalloNerokids);
+				Regina.setBackground(Cell.LIGHT);
+				Regina.setIcon(reginaNerakids);
+				Torre.addActionListener(event -> {
+					casella.setPedina("Torre", casella.getColorP(), torreNerakids);
+					dispose();
+				});
+				Alfiere.addActionListener(event -> {
+					casella.setPedina("Alfiere", casella.getColorP(),
+							alfiereNerokids);
+					dispose();
+				});
+				Cavallo.addActionListener(event -> {
+					casella.setPedina("Cavallo", casella.getColorP(),
+							cavalloNerokids);
+					dispose();
+				});
+				Regina.addActionListener(event -> {
+					casella.setPedina("Regina", casella.getColorP(), reginaNerakids);
+					dispose();
+				});
+			}
 		}
 
 		tools.add(new JLabel("Scegli tra le sequenti pedine!"));
