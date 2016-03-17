@@ -2,6 +2,7 @@ package chess.logic;
 
 import chess.graphic.ChessboardFrame;
 import chess.graphic.EndMessage;
+import chess.graphic.UpgradePFrame;
 
 public class Controller {
 	ChessboardFrame frame;
@@ -1103,7 +1104,7 @@ public class Controller {
 	private void pUpgrade(Cell casellaPromossa){
 		deSelectAll();
 		casellaPromossa.select();
-		//TODO DA AGGIUNGERE FINESTRA SCELTA PEDINA
+		new UpgradePFrame(casellaPromossa);
 	}
 
 
